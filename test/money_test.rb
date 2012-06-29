@@ -93,7 +93,7 @@ class MoneyTest < Test::Unit::TestCase
 
   def test_instantiation_with_integer
     product = Product.create(:price => 100)
-    assert_equal(product.price.cents, 100)
+    assert_equal(product.price.cents, 10000)
     assert_equal(product.price.currency, Money.default_currency)
   end
  
@@ -155,7 +155,7 @@ class MoneyTest < Test::Unit::TestCase
   def test_it_unserializes_when_currency_is_false
     refund = Refund.create! :amount => 200
     refund = Refund.find(refund.id)
-    assert_equal Money.new(200), refund.amount
+    assert_equal Money.new(20000), refund.amount
   end
 
 end

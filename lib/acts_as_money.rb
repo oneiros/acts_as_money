@@ -24,17 +24,7 @@ module ActsAsMoney #:nodoc:
         :mapping => mapping,
         :constructor => Proc.new {|cents, currency| options[:allow_nil] && !cents ? nil : Money.new(cents || 0, currency || Money.default_currency)},
         :converter => Proc.new {  |value|
-          case value
-          when Fixnum
-            Money.new(value, Money.default_currency)
-          when Float
-            Money.new((value * 100).to_d, Money.default_currency)
-          when String
-            Money.new((value.to_f * 100).to_d, Money.default_currency)
-          else
-            value
-          end
-    
+          value.respond_to?(:to_money) ? value.to_money : raise(ArgumentError, "Can't convert #{value.class} to Money") 
         }
       }      
     end
